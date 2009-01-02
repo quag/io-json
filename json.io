@@ -200,7 +200,7 @@ JsonParser := Object clone do (
         if(optionalLiteral("false"), return false)
         if(optionalLiteral("null"), return nil)
 
-        Exception raise("JsonParser Expected a value and instead found '" .. current asCharacter .. "'. A value is an object('{'), array('['), string('\"'), number(-,digit), true, false or null. " .. buffer slice(index))
+        Exception raise("JsonParser Expected a value and instead found '" .. current asCharacter .. "'. A value is an object('{'), array('['), string('\"'), number(-,digit), true, false or null. " .. buffer exSlice(index))
     )
 
     string := method(
@@ -218,7 +218,7 @@ JsonParser := Object clone do (
                 inc
                 if(currentIs("u"),
                     inc(2)
-                    result append(buffer slice(index, index + 2) fromBase(16))
+                    result append(buffer exSlice(index, index + 2) fromBase(16))
                     inc(2)
                 )
             )
@@ -256,7 +256,7 @@ JsonParser := Object clone do (
             while(currentIsDigit, inc)
         )
 
-        result := buffer slice(start, index) asNumber
+        result := buffer exSlice(start, index) asNumber
 
         whitespace
         result
